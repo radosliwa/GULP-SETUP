@@ -29,7 +29,7 @@ var paths={
     tempJS: 'temp/js/main',
     tempJSVendors: 'temp/js/vendors',
     // w kontekscie html w temp bedzie pobierał vendory juz przeniesione z src 
-    vendorsNeeded :['js/vendors/jquery.min.js'],
+    vendorsNeeded :['js/vendors/jquery.min.js','js/vendors/bootstrap.min.js'],
 
     dist: 'dist',
     distHTML: 'dist/index.html',
@@ -63,7 +63,7 @@ gulp.task('html', function () {
 
 gulp.task('css', function () {
     
-    return gulp.src(paths.srcSCSS)
+    return gulp.src([paths.srcSCSS])
     .pipe(sourcemaps.init())
     .pipe(sass()
     .on('error', sass.logError))
