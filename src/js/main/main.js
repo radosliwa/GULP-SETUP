@@ -1,6 +1,5 @@
-$(document).ready(function () {
-    $('.try').click(function(){
-      
+$(document).ready(function() {
+    $('.try').click(function() {
         $('.kill').toggleClass('red');
     })
 });
