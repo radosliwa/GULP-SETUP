@@ -1,4 +1,3 @@
-
-require('./gulpTasks/dev');
-require('./gulpTasks/watch');
-
+require('./gulp/dev');
+require('./gulp/watch');
+require('./gulp/tasks');
