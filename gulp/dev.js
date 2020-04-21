@@ -10,14 +10,14 @@ const gulp = require('gulp'),
     // SCRIPTS=============
     concatJs = require('gulp-concat'),
     webpack = require('webpack-stream'),
-    webpackConfig = require('../webpack.config.js'),
+    {configVendors, config} = require('../webpack.config.js'),
     // HTML=============================
     htmlreplace = require('gulp-html-replace'),
     rename = require('gulp-rename'),
     notify = require('gulp-notify'),
-    sourcemaps = require('gulp-sourcemaps');
-const { pathsDev, pathsBuild } = require('./paths');
-const paths = pathsDev;
+    sourcemaps = require('gulp-sourcemaps'),
+    { pathsDev, pathsBuild } = require('./paths'),
+    paths = pathsDev;
 var currentProjectName = 'kill';
 
 let addProjectSuffix = function() {
@@ -43,6 +43,7 @@ gulp.task('css_vendors', function() {
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.tempCssVendors));
 });
+
 gulp.task('css', function() {
     return gulp.src(paths.srcSCSS)
         .pipe(sourcemaps.init())
@@ -58,8 +59,7 @@ gulp.task('css', function() {
         .pipe(gulp.dest(paths.tempCSS));
 });
 
-// ===========================HTML
-
+// ===========================HTML 
 gulp.task('html', function() {
     return gulp.src(paths.srcHTML)
         .pipe(htmlreplace({
@@ -79,15 +79,24 @@ gulp.task('html', function() {
         }))
         .pipe(gulp.dest(paths.temp));
 });
+
 // ===========================SCRIPTS
 gulp.task('jsVendors', function() {
     return gulp.src(paths.srcJSVendors)
-        .pipe(concatJs('vendors.js'))
-        .pipe(gulp.dest(paths.tempJSVendors));
+    .pipe(webpack(configVendors, null, function(err, stats) {
+        if (err) {
+            console.log(err.toString());
+        }
+        if (stats.hasErrors()) {
+            return new Error('STATS ERROR: ', stats.compilation.errors.join('\n'))
+        }
+        console.log('STATS: ', stats.toString());
+    }))
+    .pipe(gulp.dest(paths.tempJS));
 });
 gulp.task('js', function() {
     return gulp.src(paths.srcJS)
-        .pipe(webpack(webpackConfig, null, function(err, stats) {
+        .pipe(webpack(config, null, function(err, stats) {
             if (err) {
                 console.log(err.toString());
             }

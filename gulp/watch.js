@@ -15,6 +15,9 @@ gulp.task('watch', function() {
     watch('./src/styles/**/*.scss', gulp.series('styles', 'cssInject'));
 
     watch('./src/js/**/*.js', gulp.series('scripts', 'scriptsRefresh'));
+
+    watch('package.json', gulp.series('vendors', reload));
+
 });
 
 
