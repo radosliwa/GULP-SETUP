@@ -15,7 +15,6 @@ module.exports = {
             tempJS: 'temp/js',
             tempJSVendors: 'temp/js/vendors',
             // w kontekscie html w temp bedzie pobierał vendory juz przeniesione z src 
-            // vendorsNeeded: ['js/vendors/jquery.min.js', 'js/vendors/bootstrap.min.js'],
 
         },
         pathsBuild: {
